@@ -12,3 +12,21 @@
     justify-content: center;
     align-items: center;
 }
+
+#board{
+    background: linear-gradient(rgba(170,236,170),rgba(236,236,167));
+    width: 90vmin;
+    height: 92vmin;
+    border: 2px black solid;
+    display: grid;
+    grid-template-columns: repeat(18,1fr);
+    grid-template-rows: repeat(18,1fr);
+}
+
+.head{
+    background-color: red;
+}
+
+.food{
+    background-color: purple;
+}
