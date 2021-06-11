@@ -3,7 +3,7 @@ const foodSound = new Audio('music/food.mp3');
 const gameOverSound = new Audio('music/gameover.mp3');
 const moveSound = new Audio('music/move.mp3');
 const musicSound = new Audio('music/music.mp3');
-let speed = 2;
+let speed = 5;
 let lastPaintTime = 0;
 let snakeArr = [
     {x: 15,y: 13}
@@ -19,25 +19,44 @@ function main(ctime){
     gameEngine();
 }
 
-function isCollid(sarr){
+function isCollide(sarr){
+    for (let i = 0; i < snakeArr.length; i++) {
+        if (snakeArr[0].x === snakeArr[i].x && snakeArr[0].y === snakeArr[i].y) {
+            return true;
+        }
+    }
+    if(snakeArr[0].x >= 18 || snakeArr[0].x <= 0 && snakeArr[0].y >= 18 || snakeArr[0].y <= 0){
+        return true;
+    }
     return false;
 }
 
 function gameEngine(){
 
     if(isCollide(snakeArr)){
-        gameOverSound.play();
+        // gameOverSound.play();
         musicSound.pause();
-        inputDir = {x:0,y:0};
-        alert("Game Over. Press any key to play again");
+        inputDir = {x:1,y:1};
+        // alert("Game Over. Press any key to play again");
         snakeArr = [{x:13,y:15}];
-        musicSound.play();
+        // musicSound.play();
         score = 0;
     }
 
     if(snakeArr[0].x===food.x && snakeArr[0].y===food.y){
+        foodSound.play();
         snakeArr.unshift({x: snakeArr[0].x+inputDir.x,y: snakeArr[0].y+inputDir.y});
+        let a = 2;
+        let b = 16;
+        food = {x: Math.round(a+(b-a)*Math.random()),y: Math.round(a+(b-a)*Math.random())}
     }
+
+    for (let i = snakeArr.length-2; i >= 0; i--) {
+        snakeArr[i+1] = {...snakeArr[i]};
+    }
+
+    snakeArr[0].x += inputDir.x;
+    snakeArr[0].y += inputDir.y;
 
     board.innerHTML="";
     snakeArr.forEach((e,index)=>{
