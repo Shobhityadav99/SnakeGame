@@ -20,7 +20,7 @@ function main(ctime){
 }
 
 function isCollide(sarr){
-    for (let i = 0; i < snakeArr.length; i++) {
+    for (let i = 1; i < snakeArr.length; i++) {
         if (snakeArr[0].x === snakeArr[i].x && snakeArr[0].y === snakeArr[i].y) {
             return true;
         }
@@ -34,12 +34,12 @@ function isCollide(sarr){
 function gameEngine(){
 
     if(isCollide(snakeArr)){
-        // gameOverSound.play();
+        gameOverSound.play();
         musicSound.pause();
         inputDir = {x:1,y:1};
-        // alert("Game Over. Press any key to play again");
+        alert("Game Over. Press any key to play again");
         snakeArr = [{x:13,y:15}];
-        // musicSound.play();
+        musicSound.play();
         score = 0;
     }
 
