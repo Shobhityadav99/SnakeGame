@@ -8,6 +8,7 @@ let lastPaintTime = 0;
 let snakeArr = [
     {x: 15,y: 13}
 ]
+food = {x: 4,y: 8};
 
 function main(ctime){
     window.requestAnimationFrame(main);
@@ -18,19 +19,69 @@ function main(ctime){
     gameEngine();
 }
 
+function isCollid(sarr){
+    return false;
+}
+
 function gameEngine(){
+
+    if(isCollide(snakeArr)){
+        gameOverSound.play();
+        musicSound.pause();
+        inputDir = {x:0,y:0};
+        alert("Game Over. Press any key to play again");
+        snakeArr = [{x:13,y:15}];
+        musicSound.play();
+        score = 0;
+    }
+
+    if(snakeArr[0].x===food.x && snakeArr[0].y===food.y){
+        snakeArr.unshift({x: snakeArr[0].x+inputDir.x,y: snakeArr[0].y+inputDir.y});
+    }
 
     board.innerHTML="";
     snakeArr.forEach((e,index)=>{
         snakeElement = document.createElement('div');
         snakeElement.style.gridRowStart = e.y;
         snakeElement.style.gridColumnStart = e.x;
-        snakeElement.classList.add('food');
+        if(index === 0){
+            snakeElement.classList.add('head');
+        }else{
+            snakeElement.classList.add('snake');
+        }
         board.appendChild(snakeElement);
-
     });
+    foodElement = document.createElement('div');
+    foodElement.style.gridRowStart = food.y;
+    foodElement.style.gridColumnStart = food.x;
+    foodElement.classList.add('food');
+    board.appendChild(foodElement);
 }
 
 
 
 window.requestAnimationFrame(main);
+window.addEventListener('keydown', e => {
+    inputDir = {x:0,y:1};
+    moveSound.play();
+    switch(e.key) {
+        case "ArrowUp":
+            inputDir.x=0;
+            inputDir.y=-1;
+            break;
+        case "ArrowDown":
+            inputDir.x=0;
+            inputDir.y=1;
+            break;
+        case "ArrowRight":
+            inputDir.x=1;
+            inputDir.y=0;
+            break;
+        case "ArrowLeft":
+            inputDir.x=-1;
+            inputDir.y=0;
+            break;
+        default:
+
+    }
+})
